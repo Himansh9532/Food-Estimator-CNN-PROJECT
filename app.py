@@ -5,7 +5,7 @@ from PIL import Image
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from predict_image import predict_food
+from predict_image import predict_top_k
 from usda_api import search_food_usda
 from gemini_ai import ask_gemini  # Optional
 
@@ -74,31 +74,25 @@ def set_background(image_file):
     """
     st.markdown(css, unsafe_allow_html=True)
 
-# Apply background
 set_background("flat-lay-sport-frame-with-salad_23-2148531521.avif")
 
-# -------------- SESSION INIT --------------
 UPLOAD_FOLDER = "static/uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 if "meal_log" not in st.session_state:
     st.session_state.meal_log = []
-
 if "predicted_food" not in st.session_state:
     st.session_state.predicted_food = None
     st.session_state.food_image_path = None
     st.session_state.food_quantity = 100.0
-
 if "trigger_prediction" not in st.session_state:
     st.session_state.trigger_prediction = False
 
-# -------------- APP START --------------
 st.markdown('<div class="main-container">', unsafe_allow_html=True)
-st.title("🍽️ Daily Calorie & Nutrition Tracker")
+st.title("Daily Calorie & Nutrition Tracker")
 
-tab1, tab2 = st.tabs(["➕ Add Food", "💡 Ask AI"])
+tab1, tab2 = st.tabs(["Add Food", "Ask AI"])
 
-# ---------------- TAB 1 ----------------
 with tab1:
     st.subheader("Add Food to Meal Log")
 
@@ -110,8 +104,8 @@ with tab1:
         file_path = os.path.join(UPLOAD_FOLDER, uploaded_file.name)
         with open(file_path, "wb") as f:
             f.write(uploaded_file.getbuffer())
-        image = Image.open(file_path)
-        st.session_state.predicted_food = predict_food(image)
+        results = predict_top_k(file_path)
+        st.session_state.predicted_food = results[0][0]
         st.session_state.food_image_path = file_path
         st.session_state.food_quantity = quantity
         st.session_state.trigger_prediction = True
@@ -147,8 +141,6 @@ with tab1:
                     st.success(f"{st.session_state.predicted_food.title()} added!")
                     st.session_state.predicted_food = None
                     st.session_state.food_image_path = None
-            else:
-                st.warning("No food detected.")
     with col2:
         if st.button("Clear Meal Log"):
             st.session_state.meal_log = []
@@ -156,7 +148,6 @@ with tab1:
             st.session_state.food_image_path = None
             st.info("Meal log cleared.")
 
-    # Meal Log Display
     if st.session_state.meal_log:
         st.subheader("Meal Log")
         for idx, entry in enumerate(st.session_state.meal_log):
@@ -176,7 +167,6 @@ with tab1:
         rda = {"Calories": 2000, "Protein": 50, "Carbohydrates": 300, "Fat": 70}
         total = {k: round(df[k].sum(), 2) for k in rda.keys()}
 
-        # Pie Chart
         st.subheader("Nutrient Breakdown (Pie Chart)")
         fig1, ax1 = plt.subplots(facecolor='none')
         ax1.pie(total.values(), labels=total.keys(), autopct='%1.1f%%', startangle=90,
@@ -185,7 +175,6 @@ with tab1:
         fig1.patch.set_alpha(0)
         st.pyplot(fig1)
 
-        # Bar Chart (Styled like Pie)
         st.subheader("Nutrient Intake (Bar Chart)")
         fig2, ax2 = plt.subplots(facecolor='none')
         ax2.set_facecolor('none')
@@ -198,12 +187,10 @@ with tab1:
         fig2.patch.set_alpha(0)
         st.pyplot(fig2)
 
-        # RDA Table
         st.subheader("RDA Comparison")
         rda_df = pd.DataFrame({"Consumed": total, "Recommended (RDA)": rda})
         st.dataframe(rda_df.T)
 
-        # Suggestions
         st.subheader("Daily Intake Suggestion")
         for nutrient in rda:
             if total[nutrient] < rda[nutrient]:
@@ -212,7 +199,6 @@ with tab1:
             else:
                 st.success(f"You have met or exceeded your daily {nutrient.lower()} intake.")
 
-# ---------------- TAB 2 ----------------
 with tab2:
     st.subheader("Ask AI About Your Nutrition")
     query = st.text_input("Ask any nutrition-related question:")
