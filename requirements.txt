@@ -1,7 +1,12 @@
-streamlit
-tensorflow
-Pillow
-numpy
-matplotlib
-requests
-google-generativeai
+# Core packages
+streamlit==1.34.0
+tensorflow==2.14.0
+Pillow==10.3.0
+numpy==1.23.5
+matplotlib==3.7.1
+
+# Web and utilities
+requests==2.31.0
+langdetect==1.0.9
+opencv-python==4.9.0.80
+google-generativeai==0.4.1
