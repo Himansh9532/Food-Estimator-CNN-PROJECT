@@ -1,0 +1,7 @@
+streamlit
+tensorflow
+Pillow
+numpy
+matplotlib
+requests
+google-generativeai
