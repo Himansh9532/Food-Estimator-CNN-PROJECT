@@ -1,87 +1,73 @@
- Food Image Nutrition Tracker – Project Note
-This is an AI-powered Streamlit application that estimates the nutritional values of food items from images, including calories, protein, carbohydrates, and fat. The app uses an image classification model to recognize the food, then fetches its nutrition data from the USDA (United States Department of Agriculture) FoodData Central API.
+# 🥗 Food Image Nutrition Tracker
 
-🔍 Key Features
-Detects food items from uploaded images (Indian dishes, fruits, vegetables)
+This is an **AI-powered Streamlit application** that estimates the **nutritional values of food items from images**, including **calories, protein, carbohydrates, and fat**. The app uses an **image classification model** to recognize the food, then fetches its nutrition data from the **USDA (United States Department of Agriculture) FoodData Central API**.
 
-Predicts calories, protein, carbs, and fat per 100g using USDA data
+---
 
-Bar and pie charts to visualize nutrient breakdown
+## 🔍 Key Features
 
-Compares daily intake with Recommended Dietary Allowance (RDA)
+- Detects food items from uploaded images (Indian dishes, fruits, vegetables)
+- Predicts **calories, protein, carbs, and fat** per 100g using USDA data
+- Generates **bar and pie charts** to visualize nutrient breakdown
+- Compares daily intake with **Recommended Dietary Allowance (RDA)**
+- Provides **smart dietary suggestions** based on your meal
+- Optionally allows you to ask **Gemini AI** questions about the food's health benefits
 
-Provides smart dietary suggestions based on your meal
+---
 
-Optionally allows you to ask Gemini AI questions about the food's health benefits
+## 🛠 Technologies Used
 
-🛠 Technologies Used
-Frontend: Streamlit
+- **Frontend:** Streamlit  
+- **Image Processing:** Pillow, OpenCV  
+- **Model:** CNN (TensorFlow/Keras)  
+- **Nutrition Data:** USDA API  
+- **Data Visualization:** Matplotlib, Pandas  
+- **Optional AI Assistant:** Gemini API  
 
-Image Processing: Pillow, OpenCV
+---
 
-Model: CNN (TensorFlow/Keras)
+## 📁 Project Workflow
 
-Nutrition Data: USDA API
+1. User uploads a **food image**
+2. The app uses a **CNN model** to classify the food
+3. Based on the prediction, it queries **USDA API** to fetch nutrients per 100g
+4. User enters the **quantity consumed**
+5. The app multiplies the values accordingly and displays:
+   - Total **calories, protein, carbs, and fats**
+   - Pie & bar chart for visual representation
+   - Comparison with **RDA**
+6. Gemini AI (optional) can answer questions like:  
+   > _"Is paneer healthy?"_, _"How much protein is in a banana?"_
 
-Data Visualization: Matplotlib, Pandas
+---
 
-Optional AI Assistant: Gemini API
+## 🔧 Setup & Installation
 
-📁 Project Workflow
-User uploads a food image
-
-The app uses a CNN model to classify the food
-
-Based on the prediction, it queries USDA API to fetch nutrients per 100g
-
-User enters the quantity they ate
-
-The app multiplies the values accordingly and displays:
-
-Total calories, protein, carbs, and fats
-
-Pie & bar chart for visual representation
-
-Comparison with RDA to check if intake is high/low
-
-Gemini AI (optional) can answer questions like:
-"Is paneer healthy?", "How much protein is in a banana?"
-
-🔧 Setup & Installation
-Clone the project:
-
-bash
-Copy
-Edit
+```bash
+# Clone the repository
 git clone https://github.com/YourUsername/food-nutrition-tracker.git
 cd food-nutrition-tracker
-(Optional) Create a virtual environment:
 
-bash
-Copy
-Edit
+# (Optional) Create a virtual environment
 python -m venv venv
-venv\Scripts\activate  # On Windows
-Install dependencies:
+venv\Scripts\activate   # On Windows
+# or
+source venv/bin/activate   # On Linux/Mac
 
-bash
-Copy
-Edit
+# Install dependencies
 pip install -r requirements.txt
-Add your USDA API key in a .env file:
+
+
+
+🔑 API Keys
+Create a .env file in the root directory:
 
 ini
 Copy
 Edit
-USDA_API_KEY=your_key_here
-(Optional) Add Gemini API key:
-
-ini
-Copy
-Edit
-GEMINI_API_KEY=your_key_here
-Run the app:
-
+USDA_API_KEY=your_usda_api_key
+GEMINI_API_KEY=your_gemini_api_key  # (Optional)
+▶️ Run the App
 bash
 Copy
 Edit
@@ -106,7 +92,15 @@ Upload an image of "Paneer"
 
 Model predicts: Paneer
 
-USDA API returns: per 100g – 321 Calories, 25g Protein, 3.5g Carbs, 25g Fat
+USDA API returns (per 100g):
+
+Calories: 321 kcal
+
+Protein: 25g
+
+Carbs: 3.5g
+
+Fat: 25g
 
 You enter quantity: 200g
 
@@ -120,20 +114,17 @@ Fat: 50g
 
 Carbs: 7g
 
-Visualized with pie and bar chart + RDA comparison
+🧁 Visualized with pie and bar chart + RDA comparison
 
 👤 Author
 Himanshu Gupta
-
 📧 2022blaiml03@axiscoleges.in
-
 🔗 GitHub: Himansh9532
-
 🔗 LinkedIn: Himanshu Gupta
 
 📜 License
 This project is licensed under the MIT License.
-You are free to use, modify, and share it with credit.
+You are free to use, modify, and share it with proper credit.
 
 🌱 Future Scope
 Add voice-based food logging
@@ -144,3 +135,14 @@ Integrate OCR to read nutrition from food labels
 
 Add support for Indian nutritional databases
 
+yaml
+Copy
+Edit
+
+---
+
+✅ You can copy-paste this as your `README.md` file in your project folder.  
+Let me know if you want to:
+- Add a GIF/image preview
+- Generate the file for download
+- Customize the project name/logo/URL
